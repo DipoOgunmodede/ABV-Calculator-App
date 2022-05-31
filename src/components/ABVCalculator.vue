@@ -39,7 +39,6 @@
       There is <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity }}ml</span> of alcohol in your drink
     </p>
   </div>
-
 </template>
 
 <script>
@@ -98,7 +97,6 @@ export default {
       }
      return "text-green-400";
     }
-   
   },
 };
 </script>
