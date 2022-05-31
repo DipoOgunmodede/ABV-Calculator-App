@@ -61,13 +61,9 @@ export default {
       return this.mixerQuantity + this.spiritQuantity;
     },
     calculateTotalDrinkABV() {
-      return this.totalDrinkQuantity == 0
-        ? 0
-        : (
-            (this.calculateTotalAlcoholQuantity / this.totalDrinkQuantity) *
-            100
-          ).toFixed(2);
-    },
+      if (this.totalDrinkQuantity == 0 ){return 0}
+      if (this.totalDrinkQuantity != 0 ){return ((this.calculateTotalAlcoholQuantity / this.totalDrinkQuantity)*100).toFixed(2);
+    }},
     computedABVColourClasses(){
     
       if (this.calculateTotalDrinkABV >=2.8 && this.calculateTotalDrinkABV < 6){
