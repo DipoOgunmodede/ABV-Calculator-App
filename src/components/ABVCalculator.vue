@@ -5,6 +5,7 @@
       <input
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number"
+        min="0"
         v-model="spiritABV"
         id="ABV"
         placeholder="37.5"
@@ -15,6 +16,7 @@
       <input
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number"
+        min="0"
         v-model="spiritQuantity"
         id="alcoholQuantity"
         placeholder="50"
@@ -25,6 +27,7 @@
       <input
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number"
+        min="0"
         v-model="mixerQuantity"
         id="mixerQuantity"
         placeholder="330"
@@ -33,10 +36,18 @@
   </form>
 
   <div class="results">
-    <p>Your drink is <span :class="computedABVColourClasses" class="font-bold">{{ `${calculateTotalDrinkABV}% ABV` }}</span>
+    <p>
+      Your drink is
+      <span :class="computedABVColourClasses" class="font-bold">{{
+        `${calculateTotalDrinkABV}% ABV`
+      }}</span>
     </p>
     <p>
-      There is <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity }}ml</span> of alcohol in your drink
+      There is
+      <span class="font-bold" :class="computeTotalAlcoholColourClasses"
+        >{{ calculateTotalAlcoholQuantity }}ml</span
+      >
+      of alcohol in your drink
     </p>
   </div>
 </template>
@@ -61,39 +72,56 @@ export default {
       return this.mixerQuantity + this.spiritQuantity;
     },
     calculateTotalDrinkABV() {
-      if (this.totalDrinkQuantity == 0 ){return 0}
-      if (this.totalDrinkQuantity != 0 ){return ((this.calculateTotalAlcoholQuantity / this.totalDrinkQuantity)*100).toFixed(2);
-    }
-    return ''},
-    computedABVColourClasses(){
-    
-      if (this.calculateTotalDrinkABV >=2.8 && this.calculateTotalDrinkABV < 6){
+      if (this.totalDrinkQuantity == 0) {
+        return 0;
+      }
+      if (this.totalDrinkQuantity != 0) {
+        return (
+          (this.calculateTotalAlcoholQuantity / this.totalDrinkQuantity) *
+          100
+        ).toFixed(2);
+      }
+      return "";
+    },
+    computedABVColourClasses() {
+      if (
+        this.calculateTotalDrinkABV >= 2.8 &&
+        this.calculateTotalDrinkABV < 6
+      ) {
         return "text-green-600";
       }
 
-      if (this.calculateTotalDrinkABV >= 6 && this.calculateTotalDrinkABV < 10){
+      if (
+        this.calculateTotalDrinkABV >= 6 &&
+        this.calculateTotalDrinkABV < 10
+      ) {
         return "text-amber-400";
       }
-       if (this.calculateTotalDrinkABV >= 10){
+      if (this.calculateTotalDrinkABV >= 10) {
         return "text-red-600";
       }
-      
-        return "text-green-400";
-    },
-     computeTotalAlcoholColourClasses(){
 
-        if (this.calculateTotalAlcoholQuantity >=25 && this.calculateTotalAlcoholQuantity < 50){
+      return "text-green-400";
+    },
+    computeTotalAlcoholColourClasses() {
+      if (
+        this.calculateTotalAlcoholQuantity >= 25 &&
+        this.calculateTotalAlcoholQuantity < 50
+      ) {
         return "text-green-600";
       }
 
-      if (this.calculateTotalAlcoholQuantity >=50 && this.calculateTotalAlcoholQuantity < 75){
+      if (
+        this.calculateTotalAlcoholQuantity >= 50 &&
+        this.calculateTotalAlcoholQuantity < 75
+      ) {
         return "text-amber-400";
       }
-      if (this.calculateTotalAlcoholQuantity >=75){
-         return "text-red-600";
+      if (this.calculateTotalAlcoholQuantity >= 75) {
+        return "text-red-600";
       }
-     return "text-green-400";
-    }
+      return "text-green-400";
+    },
   },
 };
 </script>
