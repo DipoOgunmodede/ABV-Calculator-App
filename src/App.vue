@@ -1,6 +1,6 @@
 <template>
-  <link href="/dist/output.css" rel="stylesheet">
-  <ABVCalculator/>
+  <link href="/dist/output.css" rel="stylesheet"/>
+  <ABVCalculator />
 </template>
 
 <script>
