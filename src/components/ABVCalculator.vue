@@ -1,5 +1,5 @@
 <template>
-  <form id="abvCalc" class="max-w-48 flex flex-col">
+  <form id="abvCalc" class="max-w-48 flex flex-col text-center">
     <fieldset>
       <legend>Drink name</legend>
       <input type="text" class="text-center" v-model="this.drink.drinkOptions.drinkName" placeholder="Name" />
@@ -7,24 +7,28 @@
     <fieldset class="spiritValuesContainer" v-for="(spirit, index) in drink.spirits" :key="index">
 
       <input type="text" />
-      <label class="justify-center w-full flex flex-col my-4">{{ spirit.name }} ABV in %</label>
-      <input class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-        type="number" min="0" v-model="spirit.spiritABV" id="ABV" :placeholder="spirit.spiritABV" />
+      <label :for="`total-drink-abv-${index}`" class="w-full flex flex-col my-4">{{ spirit.name }} ABV in %</label>
+      <input :id="`total-drink-abv-${index}`" class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+        type="number" min="0" v-model="spirit.spiritABV" placeholder="40" />
 
-      <label class="justify-center w-full flex flex-col my-4">{{ spirit.name }} quantity in ml</label>
-      <input class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-        type="number" min="0" v-model="spirit.spiritQuantity" id="alcoholQuantity"
-        :placeholder="spirit.spiritQuantity" />
+      <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ spirit.name }} quantity in ml</label>
+      <input :id="`total-alcohol-quantity-${index}`" class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+        type="number" min="0" v-model="spirit.spiritQuantity"  placeholder="25" />
     </fieldset>
 
-    <label class="justify-center w-full flex flex-col my-4">Mixer quantity in ml</label>
-    <input class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-      type="number" min="0" v-model="calculateMixersTotalQuantity" id="mixerQuantity" :placeholder="mixerQuantity" />
-    <label></label>
-    <input type="checkbox" />
+  <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
+      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
+      <input :id="`mixer-total-quantity-${index}`"
+        class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+        type="number" min="0" v-model="calculateMixersTotalQuantity" placeholder="330" />
+  </fieldset>
+    <fieldset>
+      <label for="mixer-ice-toggle">Drinks have ice?</label>
+      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.drinkOptions.mixersHaveIce" />
+    </fieldset>
   </form>
 
-  <div class="results">
+  <div class="results text-center">
     <p>
       Your drink is
       <span :class="computedABVColourClasses" class="font-bold">{{
@@ -83,7 +87,7 @@ export default {
         }],
         drinkOptions: {
           drinkName: 'Miscellaneous',
-          mixerHasIce: false,
+          mixersHaveIce: false,
         },
 
       },
@@ -135,7 +139,9 @@ export default {
     },
 
     calculateTotalDrinkQuantity() {
-      return (this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity)
+      return this.drink.drinkOptions.mixersHaveIce ?
+        ((this.calculateMixersTotalQuantity * 1.2) + this.calculateSpiritsTotalQuantity) :
+        this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
     },
     calculateTotalDrinkABVToFloatingPoint() {
       let abvToFloatingPointPercentage = this.fractionToPercentage(this.calculateTotalAlcoholQuantityToFloatingPoint / this.calculateTotalDrinkQuantity);
