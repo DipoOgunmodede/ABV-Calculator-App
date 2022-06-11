@@ -1,6 +1,12 @@
 <template>
   <form id="abvCalc" class="max-w-48 flex flex-col">
-    <fieldset class="spiritValuesContainer" v-for="(spirit, index) in spirits" :key="index">
+    <fieldset>
+      <legend>Drink name</legend>
+      <input type="text" class="text-center" v-model="this.drink.drinkOptions.drinkName" placeholder="Name" />
+    </fieldset>
+    <fieldset class="spiritValuesContainer" v-for="(spirit, index) in drink.spirits" :key="index">
+
+      <input type="text" />
       <label class="justify-center w-full flex flex-col my-4">{{ spirit.name }} ABV in %</label>
       <input class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="spirit.spiritABV" id="ABV" :placeholder="spirit.spiritABV" />
@@ -13,8 +19,9 @@
 
     <label class="justify-center w-full flex flex-col my-4">Mixer quantity in ml</label>
     <input class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-      type="number" min="0" v-model="mixerQuantity" id="mixerQuantity" :placeholder="mixerQuantity" />
-
+      type="number" min="0" v-model="calculateMixersTotalQuantity" id="mixerQuantity" :placeholder="mixerQuantity" />
+    <label></label>
+    <input type="checkbox" />
   </form>
 
   <div class="results">
@@ -26,7 +33,8 @@
     </p>
     <p>
       There is
-      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity }}ml</span>
+      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
+      }}ml</span>
       of alcohol in your drink
     </p>
   </div>
@@ -36,86 +44,109 @@
 export default {
   data() {
     return {
-      spirits: [
-        {
-          name: "Vodka",
-          spiritABV: 37.5,
-          spiritQuantity: 25,
+      drink: {
+        spirits: [
+          {
+            name: 'Vodka',
+            spiritABV: 37.5,
+            spiritQuantity: 25
+          },
+          {
+            name: 'Gin',
+            spiritABV: 40,
+            spiritQuantity: 0
+          },
+          {
+            name: 'Rum',
+            spiritABV: 40,
+            spiritQuantity: 0
+          },
+          {
+            name: 'Whiskey',
+            spiritABV: 40,
+            spiritQuantity: 0
+          },
+          {
+            name: 'Tequila',
+            spiritABV: 40,
+            spiritQuantity: 0
+          },
+          {
+            name: 'Absinthe',
+            spiritABV: 89.9,
+            spiritQuantity: 0
+          }
+        ],
+        mixers: [{
+          name: 'Coke',
+          mixerQuantity: 330,
+        }],
+        drinkOptions: {
+          drinkName: 'Miscellaneous',
+          mixerHasIce: false,
         },
-        {
-          name: "Gin",
-          spiritABV: 40,
-          spiritQuantity: 50,
-        },
-        {
-          name: "Rum",
-          spiritABV: 40,
-          spiritQuantity: 100,
-        },
-        {
-          name: "Whiskey",
-          spiritABV: 40,
-          spiritQuantity: 50,
-        },
-        {
-          name: "Tequila",
-          spiritABV: 40,
-          spiritQuantity: 50,
-        }
-        ,
-        {
-          name: "Absinthe",
-          spiritABV: 89.9,
-          spiritQuantity: 25,
-        }
-      ],
-      mixers: [{
-        "name": "Coke",
-        "mixerQuantity": 330
-      }]
+
+      },
+      appOptions: {
+        numberOfDecimals: 2,
+      }
 
     }
-  },
+  }
+  ,
   methods: {
+    numberToFractionOfOne(num) {
+      return num / 100
+    },
+    fractionToPercentage(num) {
+      return num * 100
+    },
+
+    roundFloatingPoint(num, fixed) {
+      // eslint-disable-next-line
+      var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+      return num.toString().match(re)[0];
+    }
   },
+
   computed: {
     calculateMixersTotalQuantity() {
-      return this.mixers.reduce((acc, mixer) => {
+      return this.drink.mixers.reduce((acc, mixer) => {
         return acc + mixer.mixerQuantity
       }, 0)
     },
-    calculateABVOfTotalDrink(){
-      
-      return this.spirits.reduce((acc, spirit) => {
 
-        totalAlcoholInSpirit += spirit.spiritQuantity * spirit.spiritABV / 100;
-
-      }, 0);
+    calculateSpiritsTotalQuantity() {
+      return this.drink.spirits.reduce((acc, spirit) => {
+        return acc + spirit.spiritQuantity
+      }, 0)
     },
-    abvToDecimal() {
-      return this.spiritABV / 100
+
+    calculateTotalAlcoholQuantityToFloatingPoint() {
+
+      let totalAlcoholQuantity = this.drink.spirits.reduce((acc, spirit) => {
+        return acc + (spirit.spiritQuantity * this.numberToFractionOfOne(spirit.spiritABV))
+      }, 0);
+      return totalAlcoholQuantity;
+
     },
     calculateTotalAlcoholQuantity() {
-      return this.createArrayOfSpirits.reduce((acc, spirit) => {
-        return acc + spirit.spiritQuantity
-      })
-
-      //  return this.spiritQuantity * this.abvToDecimal
+      return this.roundFloatingPoint(this.calculateTotalAlcoholQuantityToFloatingPoint, this.appOptions.numberOfDecimals);
     },
-    totalDrinkQuantity() {
-      return this.mixerQuantity + this.spiritQuantity
+
+    calculateTotalDrinkQuantity() {
+      return (this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity)
+    },
+    calculateTotalDrinkABVToFloatingPoint() {
+      let abvToFloatingPointPercentage = this.fractionToPercentage(this.calculateTotalAlcoholQuantityToFloatingPoint / this.calculateTotalDrinkQuantity);
+      return abvToFloatingPointPercentage
     },
     calculateTotalDrinkABV() {
-      if (this.totalDrinkQuantity !== 0) {
-        return (
-          (this.calculateTotalAlcoholQuantity / this.totalDrinkQuantity) *
-          100
-        ).toFixed(2)
-      }
-      return ''
+      return this.roundFloatingPoint(this.calculateTotalDrinkABVToFloatingPoint, this.appOptions.numberOfDecimals);
     },
+
     computedABVColourClasses() {
-      const totalDrinkABV = this.calculateTotalDrinkABV
+      const totalDrinkABV = this.calculateTotalDrinkABVToFloatingPoint
 
       if (
         totalDrinkABV < 2.8
@@ -142,7 +173,7 @@ export default {
       return ''
     },
     computeTotalAlcoholColourClasses() {
-      const totalAlcoholQuantity = this.calculateTotalAlcoholQuantity
+      const totalAlcoholQuantity = this.calculateTotalAlcoholQuantityToFloatingPoint
       if (totalAlcoholQuantity < 25) {
         return 'text-green-400'
       }
@@ -166,4 +197,5 @@ export default {
     }
   }
 }
+
 </script>
