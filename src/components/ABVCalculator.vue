@@ -23,7 +23,7 @@
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-        type="number" min="0" v-model="calculateMixersTotalQuantity" placeholder="330" />
+        type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
