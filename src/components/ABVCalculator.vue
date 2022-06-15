@@ -1,27 +1,30 @@
 <template>
   <form id="abvCalc" class="max-w-48 flex flex-col text-center">
-    <fieldset>
-      <legend>Drink name</legend>
-      <input type="text" class="text-center" v-model="this.drink.drinkOptions.drinkName" placeholder="Name" />
+    <fieldset class="text-center flex justify-center">
+      <label for="drink-name" class="font-bold">Drink name</label>
+      <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName" placeholder="Name" />
     </fieldset>
     <fieldset class="spiritValuesContainer" v-for="(spirit, index) in drink.spirits" :key="index">
 
       <input type="text" />
       <label :for="`total-drink-abv-${index}`" class="w-full flex flex-col my-4">{{ spirit.name }} ABV in %</label>
-      <input :id="`total-drink-abv-${index}`" class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+      <input :id="`total-drink-abv-${index}`"
+        class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="spirit.spiritABV" placeholder="40" />
 
-      <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ spirit.name }} quantity in ml</label>
-      <input :id="`total-alcohol-quantity-${index}`" class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-        type="number" min="0" v-model="spirit.spiritQuantity"  placeholder="25" />
+      <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ spirit.name }} quantity in
+        ml</label>
+      <input :id="`total-alcohol-quantity-${index}`"
+        class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+        type="number" min="0" v-model="spirit.spiritQuantity" placeholder="25" />
     </fieldset>
 
-  <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
+    <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="calculateMixersTotalQuantity" placeholder="330" />
-  </fieldset>
+    </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
       <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.drinkOptions.mixersHaveIce" />
@@ -53,7 +56,7 @@ export default {
           {
             name: 'Vodka',
             spiritABV: 37.5,
-            spiritQuantity: 25
+            spiritQuantity: 0
           },
           {
             name: 'Gin',
@@ -75,9 +78,14 @@ export default {
             spiritABV: 40,
             spiritQuantity: 0
           },
-          {
-            name: 'Absinthe',
-            spiritABV: 89.9,
+          // {
+          //   name: 'Absinthe',
+          //   spiritABV: 89.9,
+          //   spiritQuantity: 0
+          // },
+           {
+            name: 'Triple Sec',
+            spiritABV: 40,
             spiritQuantity: 0
           }
         ],
