@@ -22,9 +22,9 @@
             return{
                     spirit:
                         {
-                            spiritName:'Gin',
-                            spiritABV:40,
-                            spiritQuantity:100
+                            spiritName:this.name,
+                            spiritABV:this.abv,
+                            spiritQuantity:this.quantity
                         },
                     
                 }
