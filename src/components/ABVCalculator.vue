@@ -5,8 +5,7 @@
       <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Name" />
     </fieldset>
-    <spirit-values name="Vodka" :abv="40" :quantity="25"></spirit-values>
-        <spirit-values name="Gin" :abv="40" :quantity="25"></spirit-values>
+    <spirit-values v-for="(spirit, index) in drink.spirits" :key="index" :name="spirit.name" :abv="spirit.spiritABV" :quantity="spirit.spiritQuantity"></spirit-values>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
@@ -44,39 +43,39 @@ export default {
         spirits: [
           {
             name: "Vodka",
-            spiritABV: 60,
+            spiritABV: 40,
             spiritQuantity: 40
           },
-          // {
-          //     name: "Gin",
-          //     spiritABV: 40,
-          //     spiritQuantity: 0
-          // },
-          // {
-          //     name: "Rum",
-          //     spiritABV: 40,
-          //     spiritQuantity: 0
-          // },
-          // {
-          //     name: "Whiskey",
-          //     spiritABV: 40,
-          //     spiritQuantity: 0
-          // },
-          // {
-          //     name: "Tequila",
-          //     spiritABV: 40,
-          //     spiritQuantity: 0
-          // },
-          // {
-          //   name: 'Absinthe',
-          //   spiritABV: 89.9,
-          //   spiritQuantity: 0
-          // },
-          // {
-          //     name: "Triple Sec",
-          //     spiritABV: 40,
-          //     spiritQuantity: 0
-          // }
+          {
+              name: "Gin",
+              spiritABV: 40,
+              spiritQuantity: 0
+          },
+          {
+              name: "Rum",
+              spiritABV: 40,
+              spiritQuantity: 0
+          },
+          {
+              name: "Whiskey",
+              spiritABV: 40,
+              spiritQuantity: 0
+          },
+          {
+              name: "Tequila",
+              spiritABV: 40,
+              spiritQuantity: 50
+          },
+          {
+            name: 'Absinthe',
+            spiritABV: 89.9,
+            spiritQuantity: 50
+          },
+          {
+              name: "Triple Sec",
+              spiritABV: 40,
+              spiritQuantity: 50
+          }
         ],
         mixers: [{
           name: "Coke",
