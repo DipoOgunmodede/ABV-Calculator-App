@@ -22,6 +22,7 @@ export default {
         return {
             spirit:
             {
+                //note to self: you can't mutate props, but you can set them as the value of a key/value pair inside the child component data object, and then on the parent object you can v-model the newly assigned value
                 spiritName: this.name,
                 spiritABV: this.abv,
                 spiritQuantity: this.quantity
