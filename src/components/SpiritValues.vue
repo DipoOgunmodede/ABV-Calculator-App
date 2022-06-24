@@ -33,3 +33,9 @@ export default {
 }
 
 </script>
+
+<!-- Problems so far:
+
+Writing a function to add a new component on click
+
+Rounding problems with floating point calculation (7.1999999 rounding to 7.19) -->

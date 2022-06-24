@@ -44,32 +44,27 @@ export default {
           {
             name: "Vodka",
             spiritABV: 40,
-            spiritQuantity: 40
+            spiritQuantity: 50
           },
           {
               name: "Gin",
               spiritABV: 40,
-              spiritQuantity: 0
+              spiritQuantity: 50
           },
           {
               name: "Rum",
               spiritABV: 40,
-              spiritQuantity: 0
+              spiritQuantity: 50
           },
           {
               name: "Whiskey",
               spiritABV: 40,
-              spiritQuantity: 0
+              spiritQuantity: 50
           },
           {
               name: "Tequila",
               spiritABV: 40,
               spiritQuantity: 50
-          },
-          {
-            name: 'Absinthe',
-            spiritABV: 89.9,
-            spiritQuantity: 50
           },
           {
               name: "Triple Sec",
@@ -79,7 +74,7 @@ export default {
         ],
         mixers: [{
           name: "Coke",
-          mixerQuantity: 330,
+          mixerQuantity: 600,
         }],
         drinkOptions: {
           drinkName: "Miscellaneous",
