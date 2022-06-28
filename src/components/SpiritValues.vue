@@ -1,15 +1,15 @@
 <template>
     <fieldset class="spiritValuesContainer">
         <label :for="`spirit-${index}`" class="text-center">Spirit name</label>
-        <input type="text" :id="`spirit-${index}`" v-model="spirit.spiritName" />
+        <input type="text" :id="`spirit-${index}`" placeholder="Enter your alcohol name e.g. Vodka" v-model="spirit.spiritName" />
         <label :for="`total-drink-abv-${index}`" class="w-full flex flex-col my-4">{{ spirit.spiritName }} ABV in %</label>
-        <input :id="`total-drink-abv-${index}`"
+        <input :id="`total-drink-abv-${index}`" placeholder="Enter the alcohol %"
             class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
             type="number" min="0" v-model="spirit.spiritABV" />
 
-        <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ name }} quantity in
+        <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ name }} Quantity in
             ml</label>
-        <input :id="`total-alcohol-quantity-${index}`"
+        <input :id="`total-alcohol-quantity-${index}`" placeholder="Enter your alcohol quantity in millilitres"
             class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
             type="number" min="0" v-model="spirit.spiritQuantity" />
     </fieldset>

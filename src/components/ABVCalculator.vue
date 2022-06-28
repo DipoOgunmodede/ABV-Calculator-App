@@ -6,6 +6,9 @@
         placeholder="Name" />
     </fieldset>
     <spirit-values v-for="(spirit, index) in drink.spirits" :key="index" :name="spirit.name" :abv="spirit.spiritABV" :quantity="spirit.spiritQuantity"></spirit-values>
+    <fieldset>  
+      <button @click.prevent="pushNewMixer" class="border-2 border-green-500">Add new mixer</button>
+    </fieldset>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
@@ -46,31 +49,31 @@ export default {
             spiritABV: 40,
             spiritQuantity: 50
           },
-          {
-              name: "Gin",
-              spiritABV: 40,
-              spiritQuantity: 50
-          },
-          {
-              name: "Rum",
-              spiritABV: 40,
-              spiritQuantity: 50
-          },
-          {
-              name: "Whiskey",
-              spiritABV: 40,
-              spiritQuantity: 50
-          },
-          {
-              name: "Tequila",
-              spiritABV: 40,
-              spiritQuantity: 50
-          },
-          {
-              name: "Triple Sec",
-              spiritABV: 40,
-              spiritQuantity: 50
-          }
+          // {
+          //     name: "Gin",
+          //     spiritABV: 40,
+          //     spiritQuantity: 50
+          // },
+          // {
+          //     name: "Rum",
+          //     spiritABV: 40,
+          //     spiritQuantity: 50
+          // },
+          // {
+          //     name: "Whiskey",
+          //     spiritABV: 40,
+          //     spiritQuantity: 50
+          // },
+          // {
+          //     name: "Tequila",
+          //     spiritABV: 40,
+          //     spiritQuantity: 50
+          // },
+          // {
+          //     name: "Triple Sec",
+          //     spiritABV: 40,
+          //     spiritQuantity: 50
+          // }
         ],
         mixers: [{
           name: "Coke",
@@ -97,9 +100,17 @@ export default {
       // eslint-disable-next-line
       var re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
       return num.toString().match(re)[0];
+    },
+    pushNewMixer(){
+      return this.drink.spirits.push({
+        name:'',
+        spiritABV: 0,
+        spiritQuantity:0
+      })
     }
   },
   computed: {
+    
     calculateMixersTotalQuantity() {
       return this.drink.mixers.reduce((acc, mixer) => {
         return acc + mixer.mixerQuantity;
