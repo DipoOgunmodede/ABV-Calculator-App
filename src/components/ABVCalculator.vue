@@ -54,31 +54,7 @@ export default {
             spiritABV: 40,
             spiritQuantity: 50
           },
-          // {
-          //     name: "Gin",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Rum",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Whiskey",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Tequila",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Triple Sec",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // }
+          
         ],
         mixers: [{
           name: "Coke",
