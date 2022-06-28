@@ -1,0 +1,4 @@
+TO DO:
+
+Refactor inputs as individual components allowing an unlimited number of spirits and mixers to be calculated
+Add "ice or no ice" checkbox to multiply mixer quantity by 1.2
