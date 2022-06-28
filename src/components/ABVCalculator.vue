@@ -41,6 +41,7 @@
     </p>
   </div>
   <spirit-presets @preset-added="addPreset" />
+  <!-- this listens to the custom "preset-added" event created in the SpiritsPreset.vue child component -->
 </template>
 
 <script>
@@ -92,7 +93,7 @@ export default {
     },
     addPreset(payload) {
       console.log(payload);
-       this.drink.spirits.push(payload);
+      this.drink.spirits.push(payload);
     }
 
   },

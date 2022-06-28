@@ -57,6 +57,7 @@ export default {
     methods: {
         addPreset(index) {
             this.$emit("preset-added", this.spiritPresets[index])
+            //this works by selecting the current index from the spiritsPreset array and emitting the entire object to the parent component
         }
     }
 }
