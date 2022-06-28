@@ -6,8 +6,11 @@
         placeholder="Name" />
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
-      <spirit-values v-model="spirit[index]"/>
+      <spirit-values v-model:name="spirit.name" v-model:spiritABV.number="spirit.spiritABV"
+        v-model:spiritQuantity.number="spirit.spiritQuantity" />
+        <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
+    <div class="absolute top-0 left-0 w-24">{{ drink.spirits }}</div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
@@ -15,7 +18,7 @@
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
-      <button @click.prevent="$emit('addMixer', pushNewMixer)" class="border-2 border-green-500">Add new mixer</button>
+      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
@@ -33,7 +36,7 @@
     <p>
       There is
       <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
-      }}ml</span>
+      }}ml ({{roundFloatingPoint(calculateTotalAlcoholQuantity/10, 2)}} units)</span>
       of alcohol in your drink
     </p>
   </div>
@@ -100,11 +103,10 @@ export default {
     },
     roundFloatingPoint(num, fixed) {
       // eslint-disable-next-line
-      var re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
-      return num.toString().match(re)[0];
+      return parseFloat(num.toFixed(fixed));
     },
-    pushNewMixer() {
-      return this.drink.spirits.push({
+    addSpirit() {
+      this.drink.spirits.push({
         name: '',
         spiritABV: 0,
         spiritQuantity: 0

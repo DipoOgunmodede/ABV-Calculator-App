@@ -1,37 +1,29 @@
 <template>
     <fieldset class="spiritValuesContainer">
         <label :for="`spirit-${index}`" class="text-center">Spirit name</label>
-        <input type="text" :id="`spirit-${index}`" :value="modelValue.name" placeholder="Enter your alcohol name e.g. Vodka" @input="updateValue('name', $event.target.value)" />
-        <label :for="`total-drink-abv-${index}`" class="w-full flex flex-col my-4">{{ modelValue.name }}ABV in
+        <input type="text" :id="`spirit-${index}`" placeholder="Enter your alcohol name e.g. Vodka"
+            @input="$emit('update:name', $event.target.value)" :value="name" />
+        <label :for="`total-drink-abv-${index}`" class="w-full flex flex-col my-4">{{ name }} ABV in
             %</label>
-        <input :id="`total-drink-abv-${index}`" :value="modelValue.spiritABV" placeholder="Enter the alcohol %"
+        <input :id="`total-drink-abv-${index}`" placeholder="Enter the alcohol %"
             class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-            type="number" min="0" @input="updateValue('spiritABV', $event.target.value)" />
+            type="number" min="0" @input="$emit('update:spiritABV', $event.target.value)" :value="spiritABV"/>
 
-        <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ modelValue.name }} Quantity in
+        <label :for="`total-alcohol-quantity-${index}`" class="w-full flex flex-col my-4">{{ name }} Quantity
+            in
             ml</label>
-        <input :id="`total-alcohol-quantity-${index}`" :value="modelValue.spiritQuantity" placeholder="Enter your alcohol quantity in millilitres"
+        <input :id="`total-alcohol-quantity-${index}`" placeholder="Enter your alcohol quantity in millilitres"
             class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-            type="number" min="0" @input="updateValue('spiritQuantity', $event.target.value)" />
+            type="number" min="0" @input="$emit('update:spiritQuantity', $event.target.value)"  :value="spiritQuantity" />
     </fieldset>
 </template>
 <script>
 export default {
     props: {
-        modelValue: {
-            type: Object,
-            required: true
-        },
-        index: {
-            type: Number,
-            required: true
-        }
+        name: { type: String, required: false, default: '' },
+        spiritABV: { type: Number, required: false, default: 0 },
+        spiritQuantity: { type: Number, required: false, default: 0 },
     },
-    methods: {
-        updateValue(key, value) {
-            this.$emit("update:modelValue", { ...this.item, [key]: value });
-        }
-    }
 }
 
 </script>
@@ -42,3 +34,4 @@ Writing a function to add a new component on click
 
 Rounding problems with floating point calculation (7.1999999 rounding to 7.19) -->
 <!-- add a new function to generate unique indexes -->
+<!-- form field validation, avoid number fields being negative. validate maximums -->
