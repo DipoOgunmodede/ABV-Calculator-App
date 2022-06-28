@@ -8,7 +8,7 @@
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
       <spirit-values v-model:name="spirit.name" v-model:spiritABV.number="spirit.spiritABV"
         v-model:spiritQuantity.number="spirit.spiritQuantity" />
-        <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
+      <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
     <div class="absolute top-0 left-0 w-24">{{ drink.spirits }}</div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
@@ -36,14 +36,16 @@
     <p>
       There is
       <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
-      }}ml ({{roundFloatingPoint(calculateTotalAlcoholQuantity/10, 2)}} units)</span>
+      }}ml ({{ roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals) }} units)</span>
       of alcohol in your drink
     </p>
   </div>
+  <spirit-presets @preset-added="addPreset" />
 </template>
 
 <script>
 import SpiritValues from './SpiritValues.vue';
+import SpiritPresets from './SpiritPresets.vue';
 export default {
   data() {
     return {
@@ -54,7 +56,7 @@ export default {
             spiritABV: 40,
             spiritQuantity: 50
           },
-          
+
         ],
         mixers: [{
           name: "Coke",
@@ -87,6 +89,10 @@ export default {
         spiritABV: 0,
         spiritQuantity: 0
       })
+    },
+    addPreset(payload) {
+      console.log(payload);
+       this.drink.spirits.push(payload);
     }
 
   },
@@ -159,7 +165,7 @@ export default {
       return "";
     }
   },
-  components: { SpiritValues }
+  components: { SpiritValues, SpiritPresets }
 }
 
 </script>

@@ -2,12 +2,15 @@
     <div v-for="(preset, index) in spiritPresets" :key="index">
         {{ preset.name }}
         <label :for="`shot-input-${index}`">Volume</label>
-        <input type="range" :id="`shot-input-${index}`" name="volume" min="0" value="25" step="25" max="250">
+        <input type="range" :id="`shot-input-${index}`" name="volume" min="0" v-model="preset.spiritQuantity" step="25"
+            max="100">
+        {{}}
+        <button @click.prevent="addPreset(index)">Add preset!</button>
     </div>
-    <button @click.prevent="addSpirit">Add preset</button>
 </template>
 <script>
 export default {
+
     data() {
         return {
             spiritPresets: [
@@ -50,6 +53,11 @@ export default {
             ]
         }
 
+    },
+    methods: {
+        addPreset(index) {
+            this.$emit("preset-added", this.spiritPresets[index])
+        }
     }
 }
 </script>
