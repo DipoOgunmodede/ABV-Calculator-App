@@ -5,15 +5,17 @@
       <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Name" />
     </fieldset>
-    <spirit-values v-for="(spirit, index) in drink.spirits" :key="index" :name="spirit.name" :abv="spirit.spiritABV" :quantity="spirit.spiritQuantity"></spirit-values>
-    <fieldset>  
-      <button @click.prevent="pushNewMixer" class="border-2 border-green-500">Add new mixer</button>
-    </fieldset>
+    <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
+      <spirit-values v-model="spirit[index]"/>
+    </div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
       <input :id="`mixer-total-quantity-${index}`"
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
+    </fieldset>
+    <fieldset>
+      <button @click.prevent="$emit('addMixer', pushNewMixer)" class="border-2 border-green-500">Add new mixer</button>
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
@@ -101,16 +103,17 @@ export default {
       var re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
       return num.toString().match(re)[0];
     },
-    pushNewMixer(){
+    pushNewMixer() {
       return this.drink.spirits.push({
-        name:'',
+        name: '',
         spiritABV: 0,
-        spiritQuantity:0
+        spiritQuantity: 0
       })
     }
+
   },
   computed: {
-    
+
     calculateMixersTotalQuantity() {
       return this.drink.mixers.reduce((acc, mixer) => {
         return acc + mixer.mixerQuantity;
