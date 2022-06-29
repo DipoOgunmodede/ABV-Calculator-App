@@ -25,7 +25,7 @@
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
-      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.drinkOptions.mixersHaveIce" />
+      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.hasIce" />
     </fieldset>
   </form>
 
@@ -61,11 +61,12 @@ export default {
 
         ],
         mixers: [],
+        hasIce: false,
 
         mixersPresets: [{}],
         drinkOptions: {
           drinkName: "Miscellaneous",
-          mixersHaveIce: false,
+
         },
       },
       spiritPresets: [
@@ -179,9 +180,8 @@ export default {
       return this.roundFloatingPoint(this.calculateTotalAlcoholQuantityToFloatingPoint, this.appOptions.numberOfDecimals);
     },
     calculateTotalDrinkQuantity() {
-      return this.drink.drinkOptions.mixersHaveIce ?
-        ((this.calculateMixersTotalQuantity * 1.2) + this.calculateSpiritsTotalQuantity) :
-        this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
+      let tot = this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
+      return this.drink.hasIce ? tot * 1.2 : tot;
     },
     calculateTotalDrinkABVToFloatingPoint() {
       let abvToFloatingPointPercentage = this.fractionToPercentage(this.calculateTotalAlcoholQuantityToFloatingPoint / this.calculateTotalDrinkQuantity);
