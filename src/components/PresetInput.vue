@@ -1,7 +1,7 @@
 <template>
     <label :for="`shot-input-${index}`">{{ presetName }}</label>
     <input type="range" :id="`shot-input-${index}`" name="volume" min="0" :value="presetQuantity"
-        @change="updatePreset($event)" step="25" max="100" list="tickmarks">
+        @change="updatePreset($event)" step="25" max="100" list="tickmarks" class="measure-selector">
     <datalist id="tickmarks">
         <option value="25" label="1"></option>
         <option value="50" label="2"></option>

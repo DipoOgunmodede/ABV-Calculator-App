@@ -41,8 +41,6 @@
       of alcohol in your drink
     </p>
   </div>
-  <spirit-presets @preset-added="addPreset" />
-  <!-- this listens to the custom "preset-added" event created in the SpiritsPreset.vue child component -->
   <div class="flex flex-col">
     <preset-input v-for="(preset, index) in spiritPresets" :key="index" :index="index" :presetName="preset.name"
       :presetQuantity="preset.spiritQuantity" @presetMeasureChanged="updatePresetInArray" @presetAdded="addPreset"
@@ -52,7 +50,6 @@
 
 <script>
 import SpiritValues from './SpiritValues.vue';
-import SpiritPresets from './SpiritPresets.vue';
 import PresetInput from './PresetInput.vue';
 export default {
   data() {
@@ -64,7 +61,7 @@ export default {
             spiritABV: 40,
             spiritQuantity: 50
           },
-        ],   
+        ],
         mixers: [{
           name: "Coke",
           mixerQuantity: 330,
@@ -77,42 +74,42 @@ export default {
         },
       },
       spiritPresets: [
-          {
-            name: "Gin",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "Rum",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "Whiskey",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "Tequila",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "Triple Sec",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "40% spirit",
-            spiritABV: 40,
-            spiritQuantity: 25
-          },
-          {
-            name: "37.5% spirit",
-            spiritABV: 37.5,
-            spiritQuantity: 25
-          }
-        ],
+        {
+          name: "Gin",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Rum",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Whiskey",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Tequila",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Triple Sec",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "40% spirit",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "37.5% spirit",
+          spiritABV: 37.5,
+          spiritQuantity: 25
+        }
+      ],
       appOptions: {
         numberOfDecimals: 2,
       }
@@ -216,7 +213,7 @@ export default {
       return "";
     }
   },
-  components: { SpiritValues, SpiritPresets, PresetInput }
+  components: { SpiritValues, PresetInput }
 }
 
 </script>
