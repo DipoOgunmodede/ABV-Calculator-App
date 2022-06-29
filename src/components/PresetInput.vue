@@ -1,9 +1,9 @@
 <template>
-    <label :for="`shot-input-${index}`">{{ presetName }}</label>
+    <label :ref="`preset-label-${index}`" :for="`shot-input-${index}`">{{ presetName }}</label>
     <input type="range" :id="`shot-input-${index}`" name="volume" min="0" :value="presetQuantity"
         @change="updatePreset($event)" step="25" max="100" list="tickmarks" class="measure-selector">
     <datalist id="tickmarks">
-        <option value="25" label="1"></option>
+        <option value="25" label="25ml"></option>
         <option value="50" label="2"></option>
         <option value="75" label="3"></option>
         <option value="100" label="4"></option>
@@ -23,17 +23,19 @@ export default {
         emitSelectedPresetIndex() {
             this.$emit('presetAdded', this.index);
             //this.index here is referring to the index in props above
+            this.$refs["#preset-container"].scrollIntoView({ behavior: "smooth" });
+            //doesn't work: doesn't scroll into view at all let alone smoothly
         },
 
         updatePreset(event) {
             const payload = {
-                value: event.target.value, 
+                value: event.target.value,
                 index: this.index
             };
             this.$emit('presetMeasureChanged', payload)
         }
     },
-    computed:{
+    computed: {
         calculateMeasure() {
             return `${this.presetQuantity}ml`;
         }
