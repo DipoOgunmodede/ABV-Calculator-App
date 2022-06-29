@@ -1,6 +1,8 @@
 <template class="text-center">
-  <link href="/dist/output.css" rel="stylesheet"/>
-  <ABVCalculator />
+  <link href="/dist/output.css" rel="stylesheet" />
+  <main class="h-screen w-screen p-4">
+    <ABVCalculator />
+  </main>
 </template>
 
 <script>

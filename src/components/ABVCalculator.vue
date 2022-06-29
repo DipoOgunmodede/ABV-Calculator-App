@@ -8,21 +8,24 @@
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
       <spirit-values v-model:name="spirit.name" v-model:spiritABV.number="spirit.spiritABV"
         v-model:spiritQuantity.number="spirit.spiritQuantity" />
-        <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
+      <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
-    <div class="absolute top-0 left-0 w-24">{{ drink.spirits }}</div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
-      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">Mixer quantity in ml</label>
+      <label :for="`mixer-${index}`" class="text-center">Mixer name </label>
+      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
+      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{ mixer.name }} quantity in
+        ml</label>
       <input :id="`mixer-total-quantity-${index}`"
         class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
       <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
+      <button @click.prevent="addMixer" class="px-4 py-2 border-2 border-green-500 ml-4">Add new mixer</button>
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle">Drinks have ice?</label>
-      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.drinkOptions.mixersHaveIce" />
+      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.hasIce" />
     </fieldset>
   </form>
 
@@ -36,59 +39,84 @@
     <p>
       There is
       <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
-      }}ml ({{roundFloatingPoint(calculateTotalAlcoholQuantity/10, 2)}} units)</span>
+      }}ml ({{ roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals) }} units)</span>
       of alcohol in your drink
     </p>
+  </div>
+  <div class="flex flex-col py-4 px-8" id="preset-container">
+    <preset-input v-for="(preset, index) in spiritPresets" :key="index" :index="index" :presetName="preset.name"
+      :presetQuantity="preset.spiritQuantity" @presetMeasureChanged="updatePresetInArray" @presetAdded="addPreset"
+      :presetABV="preset.spiritABV" />
   </div>
 </template>
 
 <script>
 import SpiritValues from './SpiritValues.vue';
+import PresetInput from './PresetInput.vue';
 export default {
   data() {
     return {
       drink: {
         spirits: [
-          {
-            name: "Vodka",
-            spiritABV: 40,
-            spiritQuantity: 50
-          },
-          // {
-          //     name: "Gin",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Rum",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Whiskey",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Tequila",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // },
-          // {
-          //     name: "Triple Sec",
-          //     spiritABV: 40,
-          //     spiritQuantity: 50
-          // }
+
         ],
-        mixers: [{
-          name: "Coke",
-          mixerQuantity: 600,
-        }],
+        mixers: [],
+        hasIce: false,
+
+        mixersPresets: [{}],
         drinkOptions: {
           drinkName: "Miscellaneous",
-          mixersHaveIce: false,
+
         },
       },
+      spiritPresets: [
+        {
+          name: "Vodka",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Gin",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Rum",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Whiskey",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Tequila",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Triple Sec",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "Jägermeister",
+          spiritABV: 35,
+          spiritQuantity: 25
+        },
+
+        {
+          name: "40% spirit",
+          spiritABV: 40,
+          spiritQuantity: 25
+        },
+        {
+          name: "37.5% spirit",
+          spiritABV: 37.5,
+          spiritQuantity: 25
+        },
+      ],
       appOptions: {
         numberOfDecimals: 2,
       }
@@ -111,9 +139,25 @@ export default {
         spiritABV: 0,
         spiritQuantity: 0
       })
+    },
+    addMixer() {
+      this.drink.mixers.push({
+        name: '',
+        mixerQuantity: 0
+      })
+    },
+    addPreset(payload) {
+      console.log(payload);
+      const preset = this.spiritPresets[payload];
+      const presetObject = { ...preset };
+      this.drink.spirits.push(presetObject);
+    },
+    updatePresetInArray(payload) {
+      console.log(payload);
+      this.spiritPresets[payload.index].spiritQuantity = parseInt(payload.value);
     }
-
-  },
+  }
+  ,
   computed: {
 
     calculateMixersTotalQuantity() {
@@ -136,9 +180,8 @@ export default {
       return this.roundFloatingPoint(this.calculateTotalAlcoholQuantityToFloatingPoint, this.appOptions.numberOfDecimals);
     },
     calculateTotalDrinkQuantity() {
-      return this.drink.drinkOptions.mixersHaveIce ?
-        ((this.calculateMixersTotalQuantity * 1.2) + this.calculateSpiritsTotalQuantity) :
-        this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
+      let tot = this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
+      return this.drink.hasIce ? tot * 1.2 : tot;
     },
     calculateTotalDrinkABVToFloatingPoint() {
       let abvToFloatingPointPercentage = this.fractionToPercentage(this.calculateTotalAlcoholQuantityToFloatingPoint / this.calculateTotalDrinkQuantity);
@@ -183,7 +226,7 @@ export default {
       return "";
     }
   },
-  components: { SpiritValues }
+  components: { SpiritValues, PresetInput }
 }
 
 </script>
