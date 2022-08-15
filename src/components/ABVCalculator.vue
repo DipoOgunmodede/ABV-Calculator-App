@@ -1,9 +1,9 @@
 <template>
-  <form id="abvCalc" class="max-w-48 flex flex-col">
-    <fieldset class="flex justify-center [&>*]:text-red-200">
+  <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2">
+    <fieldset class="flex justify-center">
       <label for="drink-name" class="font-bold">Drink name</label>
       <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
-        placeholder="Name" />
+        placeholder="Give your drink a name" />
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
       <spirit-values v-model:name="spirit.name" v-model:spiritABV.number="spirit.spiritABV"
@@ -24,8 +24,8 @@
       <button @click.prevent="addMixer" class="px-4 py-2 border-2 border-green-500 ml-4">Add new mixer</button>
     </fieldset>
     <fieldset>
-      <label for="mixer-ice-toggle">Drinks have ice?</label>
-      <input id="mixer-ice-toggle" class="ml-4 p-4" type="checkbox" v-model="drink.hasIce" />
+      <label for="mixer-ice-toggle" class="text-blue-400 pr-2">Drinks have ice?</label>
+      <input id="mixer-ice-toggle" class="ml-4" type="checkbox" v-model="drink.hasIce" />
     </fieldset>
   </form>
 
@@ -65,7 +65,7 @@ export default {
 
         mixersPresets: [{}],
         drinkOptions: {
-          drinkName: "Miscellaneous",
+          drinkName: "",
 
         },
       },

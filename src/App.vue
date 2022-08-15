@@ -1,6 +1,6 @@
 <template class="text-center">
   <link href="/dist/output.css" rel="stylesheet" />
-  <main class="h-screen w-screen p-4 overflow-x-hidden flex flex-col items-center">
+  <main class="h-screen w-screen p-4 overflow-x-hidden flex flex-col items-center text-2xl">
     <ABVCalculator />
   </main>
 </template>
@@ -18,5 +18,13 @@ export default {
 <style>
 main * {
   @apply my-2;
+}
+
+[type="checkbox"] {
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+  @apply ml-2;
 }
 </style>
