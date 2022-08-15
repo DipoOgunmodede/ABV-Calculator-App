@@ -16,8 +16,8 @@
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{ mixer.name }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
-        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
-        type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
+        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4" type="number"
+        min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
       <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
@@ -187,13 +187,20 @@ export default {
       let tot = this.calculateMixersTotalQuantity + this.calculateSpiritsTotalQuantity;
       return this.drink.hasIce ? tot * 1.2 : tot;
     },
+    calculateTotalDrinkABV() {
+      if (this.calculateTotalAlcoholQuantity === 0) {
+        return 0;
+      }
+      return this.roundFloatingPoint(this.calculateTotalDrinkABVToFloatingPoint, this.appOptions.numberOfDecimals);
+    },
     calculateTotalDrinkABVToFloatingPoint() {
+      if (this.calculateTotalAlcoholQuantity === 0) {
+        return 0;
+      }
       let abvToFloatingPointPercentage = this.fractionToPercentage(this.calculateTotalAlcoholQuantityToFloatingPoint / this.calculateTotalDrinkQuantity);
       return abvToFloatingPointPercentage;
     },
-    calculateTotalDrinkABV() {
-      return this.roundFloatingPoint(this.calculateTotalDrinkABVToFloatingPoint, this.appOptions.numberOfDecimals);
-    },
+
     computedABVColourClasses() {
       const totalDrinkABV = this.calculateTotalDrinkABVToFloatingPoint;
       if (totalDrinkABV < 2.8) {
