@@ -1,6 +1,6 @@
 <template>
-  <form id="abvCalc" class="max-w-48 flex flex-col text-center">
-    <fieldset class="text-center flex justify-center">
+  <form id="abvCalc" class="max-w-48 flex flex-col">
+    <fieldset class="flex justify-center [&>*]:text-red-200">
       <label for="drink-name" class="font-bold">Drink name</label>
       <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Name" />
@@ -11,12 +11,12 @@
       <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
-      <label :for="`mixer-${index}`" class="text-center">Mixer name </label>
+      <label :for="`mixer-${index}`">Mixer name </label>
       <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{ mixer.name }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
-        class="m-4 p-4 text-3xl text-center focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
+        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4"
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
@@ -29,7 +29,7 @@
     </fieldset>
   </form>
 
-  <div class="results text-center">
+  <div class="results ">
     <p>
       Your drink is
       <span :class="computedABVColourClasses" class="font-bold">{{
@@ -43,7 +43,7 @@
       of alcohol in your drink
     </p>
   </div>
-  <div ref="preset-container" class="flex flex-col py-4 px-8" id="preset-container">
+  <div ref="preset-container" class="flex flex-col py-4 px-8 self-stretch" id="preset-container">
     <preset-input v-for="(preset, index) in spiritPresets" :key="index" :index="index" :presetName="preset.name"
       :presetQuantity="preset.spiritQuantity" @presetMeasureChanged="updatePresetInArray" @presetAdded="addPreset"
       :presetABV="preset.spiritABV" />
