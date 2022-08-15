@@ -23,7 +23,7 @@ export default {
         emitSelectedPresetIndex() {
             this.$emit('presetAdded', this.index);
             //this.index here is referring to the index in props above
-            this.$refs["#preset-container"].scrollIntoView({ behavior: "smooth" });
+            this.$refs["preset-container"].scrollIntoView({ behavior: "smooth" });
             //doesn't work: doesn't scroll into view at all let alone smoothly
         },
 

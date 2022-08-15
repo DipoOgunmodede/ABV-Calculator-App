@@ -43,7 +43,7 @@
       of alcohol in your drink
     </p>
   </div>
-  <div class="flex flex-col py-4 px-8" id="preset-container">
+  <div ref="preset-container" class="flex flex-col py-4 px-8" id="preset-container">
     <preset-input v-for="(preset, index) in spiritPresets" :key="index" :index="index" :presetName="preset.name"
       :presetQuantity="preset.spiritQuantity" @presetMeasureChanged="updatePresetInArray" @presetAdded="addPreset"
       :presetABV="preset.spiritABV" />
@@ -155,7 +155,11 @@ export default {
     updatePresetInArray(payload) {
       console.log(payload);
       this.spiritPresets[payload.index].spiritQuantity = parseInt(payload.value);
-    }
+    },
+    //  scrollToTop() {
+    //   console.log("scrolling to the top");
+    //   this.$refs["presets"].scrollIntoView({ behavior: "smooth" })
+    // },
   }
   ,
   computed: {
