@@ -15,3 +15,8 @@ export default {
   }
 }
 </script>
+<style>
+main * {
+  @apply my-2;
+}
+</style>
