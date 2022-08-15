@@ -9,7 +9,7 @@
         <option value="100" label="4"></option>
     </datalist>
     <!-- this is hella confusing BUT this index has been passed down from the parent component. There is an array of spirit presets, and the index is passed from that array on the parent data object to this child object -->
-    <button @click.prevent="emitSelectedPresetIndex(index)">Add {{ calculateMeasure }}</button>
+    <div class="flex justify-center"><button class="p-4 border-2 border-green-500" @click.prevent="emitSelectedPresetIndex(index)">Add {{ calculateMeasure }}</button></div>
 </template>
 <script>
 export default {
@@ -23,7 +23,7 @@ export default {
         emitSelectedPresetIndex() {
             this.$emit('presetAdded', this.index);
             //this.index here is referring to the index in props above
-            this.$refs["#preset-container"].scrollIntoView({ behavior: "smooth" });
+            // this.$refs["preset-container"].scrollIntoView({ behavior: "smooth" });
             //doesn't work: doesn't scroll into view at all let alone smoothly
         },
 
