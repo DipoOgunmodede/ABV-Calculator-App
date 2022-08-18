@@ -149,8 +149,15 @@ export default {
     addPreset(payload) {
       console.log(payload);
       const preset = this.spiritPresets[payload];
-      const presetObject = { ...preset };
+      //if this preset naem and ABV already exists in drinks.spirits, update the quantity
+      const existingPreset = this.drink.spirits.find(spirit => spirit.name === preset.name && spirit.spiritABV === preset.spiritABV);
+      if (existingPreset) {
+        existingPreset.spiritQuantity += preset.spiritQuantity;
+      } else {
+        const presetObject = { ...preset };
       this.drink.spirits.push(presetObject);
+      }
+      
     },
     updatePresetInArray(payload) {
       console.log(payload);
