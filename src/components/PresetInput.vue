@@ -9,7 +9,7 @@
         <option value="100" label="4"></option>
     </datalist>
     <!-- this is hella confusing BUT this index has been passed down from the parent component. There is an array of spirit presets, and the index is passed from that array on the parent data object to this child object -->
-    <div class="flex justify-center"><button class="px-4 py-2  hover:text-white rounded border-2 border-quaternary text-tertiary" @click.prevent="emitSelectedPresetIndex(index)">Add {{ calculateMeasure }}</button></div>
+    <div class="flex justify-center"><button class="px-4 py-2 hover:border-tertiary hover:text-white rounded border-2 border-quaternary text-tertiary" @click.prevent="emitSelectedPresetIndex(index)">Add {{ calculateMeasure }}</button></div>
 </template>
 <script>
 export default {
