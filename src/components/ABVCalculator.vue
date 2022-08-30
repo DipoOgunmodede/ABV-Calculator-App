@@ -12,11 +12,11 @@
     </div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-${index}`">Mixer name </label>
-      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
+      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" class="bg-inherit" />
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{  mixer.name  }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
-        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4 text-center"
+        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4 text-center bg-inherit"
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
@@ -26,7 +26,7 @@
         list</button>
     </fieldset>
     <fieldset>
-      <label for="mixer-ice-toggle" class="text-blue-400 pr-2">Drinks have ice?</label>
+      <label for="mixer-ice-toggle" class="text-secondary pr-2">Drinks have ice?</label>
       <input id="mixer-ice-toggle" class="ml-4" type="checkbox" v-model="drink.hasIce" />
     </fieldset>
   </form>
