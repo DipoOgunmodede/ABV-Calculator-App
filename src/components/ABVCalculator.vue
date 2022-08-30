@@ -12,16 +12,19 @@
     </div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-${index}`">Mixer name </label>
-      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
-      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{ mixer.name }} quantity in
+      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name"
+        text- />
+      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{  mixer.name  }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
-        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4" type="number"
-        min="0" v-model="mixer.mixerQuantity" placeholder="330" />
+        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4 text-center"
+        type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
       <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
       <button @click.prevent="addMixer" class="px-4 py-2 border-2 border-green-500 ml-4">Add new mixer</button>
+      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-green-500 ml-4" id="export-current-drink">Export current
+        list</button>
     </fieldset>
     <fieldset>
       <label for="mixer-ice-toggle" class="text-blue-400 pr-2">Drinks have ice?</label>
@@ -33,13 +36,13 @@
     <p>
       Your drink is
       <span :class="computedABVColourClasses" class="font-bold">{{
-          `${calculateTotalDrinkABV}% ABV`
-      }}</span>
+         `${calculateTotalDrinkABV}% ABV` 
+        }}</span>
     </p>
     <p>
       There is
-      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
-      }}ml ({{ roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals) }} units)</span>
+      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{  calculateTotalAlcoholQuantity 
+        }}ml ({{  roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals)  }} units)</span>
       of alcohol in your drink
     </p>
   </div>
@@ -155,20 +158,36 @@ export default {
         existingPreset.spiritQuantity += preset.spiritQuantity;
       } else {
         const presetObject = { ...preset };
-      this.drink.spirits.push(presetObject);
+        this.drink.spirits.push(presetObject);
       }
-      
+
     },
     updatePresetInArray(payload) {
       console.log(payload);
       this.spiritPresets[payload.index].spiritQuantity = parseInt(payload.value);
     },
-    //  scrollToTop() {
-    //   console.log("scrolling to the top");
-    //   this.$refs["presets"].scrollIntoView({ behavior: "smooth" })
-    // },
-  }
-  ,
+    exportDrink() {
+      //export a text list of all spirits and mixers in the drink
+      const drinkName = this.drink.drinkOptions.drinkName;
+      const drinkSpirits = this.drink.spirits;
+      const drinkMixers = this.drink.mixers;
+      const drinkMixersText = drinkMixers.map(mixer => `${mixer.name} ${mixer.mixerQuantity}ml`).join("\n");
+      const drinkHasIce = this.drink.hasIce;
+      const drinkSpiritsText = drinkSpirits.map(spirit => `${spirit.name} ${spirit.spiritQuantity}ml (${spirit.spiritABV}%)`).join("\n");
+      let drinkList = `Check out this crazy 🤪 drink I just created.\n\nSpirits:\n${drinkName} ${drinkSpiritsText} \nMixers:\n ${drinkMixersText} ${drinkHasIce ? "with ice" : ""} \nI call it ${drinkName}. It's ${this.calculateTotalDrinkABV}% alcohol by volume and has ${this.roundFloatingPoint(this.calculateTotalAlcoholQuantity / 10, this.appOptions.numberOfDecimals)} units of alcohol in it!`;
+
+      const button = document.getElementById("export-current-drink");
+      //transition background colour
+      button.classList.add("animate-[pulse_0.3s_ease-in-out_3]");
+      setTimeout(() => {
+        button.classList.remove("animate-[pulse_0.3s_ease-in-out_3]");
+      }, 900);
+      navigator.clipboard.writeText(drinkList);
+
+      console.log(drinkList);
+    }
+
+  },
   computed: {
 
     calculateMixersTotalQuantity() {
