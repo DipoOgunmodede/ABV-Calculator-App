@@ -2,7 +2,7 @@
   <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2">
     <fieldset class="flex justify-center">
       <label for="drink-name" class="font-bold">Drink name</label>
-      <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
+      <input type="text" id="drink-name" class="ml-4 bg-inherit" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Give your drink a name" />
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
@@ -12,8 +12,7 @@
     </div>
     <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-${index}`">Mixer name </label>
-      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name"
-        text- />
+      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{  mixer.name  }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
@@ -21,9 +20,9 @@
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
-      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
-      <button @click.prevent="addMixer" class="px-4 py-2 border-2 border-green-500 ml-4">Add new mixer</button>
-      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-green-500 ml-4" id="export-current-drink">Export current
+      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-quinary border-tertiary">Add new spirit</button>
+      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-secondary border-tertiary ml-4">Add new mixer</button>
+      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-tertiary" id="export-current-drink">Export current
         list</button>
     </fieldset>
     <fieldset>
@@ -32,7 +31,7 @@
     </fieldset>
   </form>
 
-  <div class="results ">
+  <div class="results text-quaternary">
     <p>
       Your drink is
       <span :class="computedABVColourClasses" class="font-bold">{{
