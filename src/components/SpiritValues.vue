@@ -1,5 +1,5 @@
 <template>
-    <fieldset class="spiritValuesContainer">
+    <fieldset class="spiritValuesContainer text-[#693668]">
         <label :for="`spirit-${index}`" class="text-center">Spirit name </label>
         <input type="text" :id="`spirit-${index}`" placeholder="Enter your alcohol name e.g. Vodka"
             @input="$emit('update:name', $event.target.value)" :value="name"  class="bg-inherit"/>

@@ -2,7 +2,7 @@
   <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2">
     <fieldset class="flex justify-center">
       <label for="drink-name" class="font-bold">Drink name</label>
-      <input type="text" id="drink-name" class="ml-4 bg-inherit" v-model="this.drink.drinkOptions.drinkName"
+      <input type="text" id="drink-name" class="ml-4 bg-inherit text-primary" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Give your drink a name" />
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
@@ -10,7 +10,7 @@
         v-model:spiritQuantity.number="spirit.spiritQuantity" />
       <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
-    <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
+    <fieldset class="text-goldfusion" v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-${index}`">Mixer name </label>
       <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" class="bg-inherit" />
       <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{  mixer.name  }} quantity in
@@ -20,13 +20,13 @@
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
-      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-quinary border-tertiary">Add new spirit</button>
-      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-secondary border-tertiary ml-4">Add new mixer</button>
-      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-tertiary" id="export-current-drink">Export current
+      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-primary border-tertiary">Add new spirit</button>
+      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-quaternary border-tertiary ml-4">Add new mixer</button>
+      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-primary" id="export-current-drink">Export current
         list</button>
     </fieldset>
     <fieldset>
-      <label for="mixer-ice-toggle" class="text-secondary pr-2">Drinks have ice?</label>
+      <label for="mixer-ice-toggle" class="text-primary pr-2">Drinks have ice?</label>
       <input id="mixer-ice-toggle" class="ml-4" type="checkbox" v-model="drink.hasIce" />
     </fieldset>
   </form>
