@@ -1,8 +1,10 @@
 <template>
-  <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2">
+  <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2 text-white">
     <fieldset class="flex justify-center">
       <label for="drink-name" class="font-bold">Drink name</label>
       <input type="text" id="drink-name" class="ml-4 bg-inherit text-primary" v-model="this.drink.drinkOptions.drinkName"
+      <label for="drink-name" class="font-bold" >Drink name</label>
+      <input type="text" id="drink-name" class="ml-4 bg-inherit" v-model="this.drink.drinkOptions.drinkName"
         placeholder="Give your drink a name" />
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
@@ -28,6 +30,7 @@
     <fieldset>
       <label for="mixer-ice-toggle" class="text-primary pr-2">Drinks have ice?</label>
       <input id="mixer-ice-toggle" class="ml-4" type="checkbox" v-model="drink.hasIce" />
+      <small v-if="drink.hasIce" class="ml-4 block text-quaternary">(1.2x total mixer multiplier)</small>
     </fieldset>
   </form>
 

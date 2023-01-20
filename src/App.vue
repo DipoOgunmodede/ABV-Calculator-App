@@ -1,6 +1,6 @@
 <template class="text-center">
   <link href="/dist/output.css" rel="stylesheet" />
-  <main class="h-screen w-screen p-4 overflow-x-hidden flex flex-col text-center items-center text-xl bg-tertiary">
+  <main class="h-screen w-screen p-4 overflow-x-hidden flex flex-col text-center items-center text-xl bg-black text-secondary">
     <ABVCalculator />
   </main>
 </template>
