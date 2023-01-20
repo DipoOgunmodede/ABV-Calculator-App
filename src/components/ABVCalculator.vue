@@ -39,7 +39,7 @@
         }}</span>
     </p>
     <p>
-      There is
+      There {{ calculateTotalAlcoholQuantity > 0 ? "are" : "is" }}
       <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{  calculateTotalAlcoholQuantity 
         }}ml ({{  roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals)  }} units)</span>
       of alcohol in your drink
