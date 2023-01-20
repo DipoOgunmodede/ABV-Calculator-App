@@ -1,8 +1,10 @@
 <template class="text-center">
   <link href="/dist/output.css" rel="stylesheet" />
-  <main class="h-screen w-screen p-4 overflow-x-hidden flex flex-col items-center text-xl">
-    <ABVCalculator />
-  </main>
+  <body class="h-screen w-screen p-4 overflow-x-hidden flex flex-col text-center items-center text-xl bg-black text-secondary">
+    <main class="w-full max-w-6xl">
+      <ABVCalculator />
+    </main>
+  </body>
 </template>
 
 <script>

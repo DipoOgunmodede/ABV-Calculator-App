@@ -1,49 +1,51 @@
 <template>
-  <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2">
+  <form id="abvCalc" class="max-w-48 flex flex-col [&>*]:my-2 text-white">
     <fieldset class="flex justify-center">
       <label for="drink-name" class="font-bold">Drink name</label>
-      <input type="text" id="drink-name" class="ml-4 text-blue-800" v-model="this.drink.drinkOptions.drinkName"
-        placeholder="Give your drink a name" />
+      <input type="text" id="drink-name" placeholder="e.g. Long Island Iced Tea" class="ml-4 bg-inherit text-white" v-model="this.drink.drinkOptions.drinkName">
     </fieldset>
     <div v-for="(spirit, index) in drink.spirits" :key="index" :index="index">
       <spirit-values v-model:name="spirit.name" v-model:spiritABV.number="spirit.spiritABV"
         v-model:spiritQuantity.number="spirit.spiritQuantity" />
       <!-- Because an event is emitted when the value is updated in the child, this keeps the prop in sync between parent and child components -->
     </div>
-    <fieldset v-for="(mixer, index) in drink.mixers" :key="index">
+    <fieldset class="text-goldfusion" v-for="(mixer, index) in drink.mixers" :key="index">
       <label :for="`mixer-${index}`">Mixer name </label>
-      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer  name e.g. Cola" v-model="mixer.name" />
-      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{ mixer.name }} quantity in
+      <input type="text" :id="`mixer-${index}`" placeholder="Enter your mixer name e.g. Cola" v-model="mixer.name" class="bg-inherit" />
+      <label :for="`mixer-total-quantity-${index}`" class="w-full flex flex-col my-4">{{  mixer.name  }} quantity in
         ml</label>
       <input :id="`mixer-total-quantity-${index}`"
-        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4" type="number"
-        min="0" v-model="mixer.mixerQuantity" placeholder="330" />
+        class="m-4 p-4 text-3xl  focus-within:outline-dashed focus:outline-green-500 focus:outline-4 text-center bg-inherit"
+        type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
-      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 border-green-500">Add new spirit</button>
-      <button @click.prevent="addMixer" class="px-4 py-2 border-2 border-green-500 ml-4">Add new mixer</button>
+      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-white border-tertiary">Add new spirit</button>
+      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-quaternary border-tertiary ml-4">Add new mixer</button>
+      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-white" id="export-current-drink">Export current
+        list</button>
     </fieldset>
     <fieldset>
-      <label for="mixer-ice-toggle" class="text-blue-400 pr-2">Drinks have ice?</label>
+      <label for="mixer-ice-toggle" class="text-white pr-2">Drinks have ice?</label>
       <input id="mixer-ice-toggle" class="ml-4" type="checkbox" v-model="drink.hasIce" />
+      <small v-if="drink.hasIce" class="ml-4 block text-quaternary">(1.2x total mixer multiplier)</small>
     </fieldset>
   </form>
 
-  <div class="results ">
+  <div class="results text-quaternary">
     <p>
       Your drink is
       <span :class="computedABVColourClasses" class="font-bold">{{
-          `${calculateTotalDrinkABV}% ABV`
-      }}</span>
+         `${calculateTotalDrinkABV}% ABV` 
+        }}</span>
     </p>
     <p>
       There is
-      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{ calculateTotalAlcoholQuantity
-      }}ml ({{ roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals) }} units)</span>
+      <span class="font-bold" :class="computeTotalAlcoholColourClasses">{{  calculateTotalAlcoholQuantity 
+        }}ml ({{  roundFloatingPoint(calculateTotalAlcoholQuantity / 10, appOptions.numberOfDecimals)  }} units)</span>
       of alcohol in your drink
     </p>
   </div>
-  <div ref="preset-container" class="flex flex-col py-4 px-8 self-stretch" id="preset-container">
+  <div ref="preset-container" class="py-4 px-8" id="preset-container">
     <preset-input v-for="(preset, index) in spiritPresets" :key="index" :index="index" :presetName="preset.name"
       :presetQuantity="preset.spiritQuantity" @presetMeasureChanged="updatePresetInArray" @presetAdded="addPreset"
       :presetABV="preset.spiritABV" />
@@ -149,19 +151,42 @@ export default {
     addPreset(payload) {
       console.log(payload);
       const preset = this.spiritPresets[payload];
-      const presetObject = { ...preset };
-      this.drink.spirits.push(presetObject);
+      //if this preset naem and ABV already exists in drinks.spirits, update the quantity
+      const existingPreset = this.drink.spirits.find(spirit => spirit.name.toLowerCase() === preset.name.toLowerCase() && spirit.spiritABV === preset.spiritABV);
+      if (existingPreset) {
+        existingPreset.spiritQuantity += preset.spiritQuantity;
+      } else {
+        const presetObject = { ...preset };
+        this.drink.spirits.push(presetObject);
+      }
+
     },
     updatePresetInArray(payload) {
       console.log(payload);
       this.spiritPresets[payload.index].spiritQuantity = parseInt(payload.value);
     },
-    //  scrollToTop() {
-    //   console.log("scrolling to the top");
-    //   this.$refs["presets"].scrollIntoView({ behavior: "smooth" })
-    // },
-  }
-  ,
+    exportDrink() {
+      //export a text list of all spirits and mixers in the drink
+      const drinkName = this.drink.drinkOptions.drinkName;
+      const drinkSpirits = this.drink.spirits;
+      const drinkMixers = this.drink.mixers;
+      const drinkMixersText = drinkMixers.map(mixer => `${mixer.name} ${mixer.mixerQuantity}ml`).join("\n");
+      const drinkHasIce = this.drink.hasIce;
+      const drinkSpiritsText = drinkSpirits.map(spirit => `${spirit.name} ${spirit.spiritQuantity}ml (${spirit.spiritABV}%)`).join("\n");
+      let drinkList = `Check out this crazy 🤪 drink I just created.\n\nSpirits:\n${drinkName} ${drinkSpiritsText} \nMixers:\n ${drinkMixersText} ${drinkHasIce ? "with ice" : ""} \nI call it ${drinkName}. It's ${this.calculateTotalDrinkABV}% alcohol by volume and has ${this.roundFloatingPoint(this.calculateTotalAlcoholQuantity / 10, this.appOptions.numberOfDecimals)} units of alcohol in it!`;
+
+      const button = document.getElementById("export-current-drink");
+      //transition background colour
+      button.classList.add("animate-[pulse_0.3s_ease-in-out_3]");
+      setTimeout(() => {
+        button.classList.remove("animate-[pulse_0.3s_ease-in-out_3]");
+      }, 900);
+      navigator.clipboard.writeText(drinkList);
+
+      console.log(drinkList);
+    }
+
+  },
   computed: {
 
     calculateMixersTotalQuantity() {
