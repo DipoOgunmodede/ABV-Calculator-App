@@ -19,9 +19,9 @@
         type="number" min="0" v-model="mixer.mixerQuantity" placeholder="330" />
     </fieldset>
     <fieldset>
-      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-white border-tertiary">Add new spirit</button>
-      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-quaternary border-tertiary ml-4">Add new mixer</button>
-      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-white" id="export-current-drink">Export current
+      <button @click.prevent="addSpirit" class="px-4 py-2 border-2 text-primary border-tertiary">Add new spirit</button>
+      <button @click.prevent="addMixer" class="px-4 py-2 border-2 text-quaternary border-tertiary md:ml-4">Add new mixer</button>
+      <button @click.prevent="exportDrink" class="w-full px-4 my-2 py-2 border-2 border-quaternary text-primary" id="export-current-drink">Export current
         list</button>
     </fieldset>
     <fieldset>
